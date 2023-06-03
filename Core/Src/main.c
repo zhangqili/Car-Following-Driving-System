@@ -163,7 +163,8 @@ int main(void)
 		
 		if(USART_RX_FLG)
 		{
-			sscanf(USART_RX_BUF,"%f",&bias_error);
+			//sscanf(USART_RX_BUF,"%f",&bias_error);
+			sscanf(USART_RX_BUF,"\x2c\x12%f\x5b",&bias_error);
 			//sprintf(USART_RX_STR,"%f",bias_error);
 			strcpy(USART_RX_STR,USART_RX_BUF);
 			

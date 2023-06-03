@@ -261,6 +261,11 @@ void uart2_revice_my_data(void)
         USART_RX_CNT=0;
         USART_RX_FLG=1;
         break;
+    case '\x5b':
+        USART_RX_BUF[USART_RX_CNT++]=USART_RX_BYTE;
+        USART_RX_CNT=0;
+        USART_RX_FLG=1;
+        break;
     default:
         USART_RX_BUF[USART_RX_CNT++]=USART_RX_BYTE;
         break;
