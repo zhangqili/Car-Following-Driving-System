@@ -10,7 +10,7 @@
 #include "stdio.h"
 #include "pid_control.h"
 #include "mpu6050.h"
-#include "pid_control.h"
+#include "motor_control.h"
 #include "usart.h"
 
 Rectangle cursor={0,0,0};
@@ -169,6 +169,9 @@ void UI_Render()
     case MENU_PID:
         UI_Menu_PID();
         break;
+    case MONITOR:
+        UI_Menu_Monitor();
+        break;
     }
     u8g2_DrawFrame(&u8g2, 2, UI_Selection*15, 120, 17);
     u8g2_SendBuffer(&u8g2);
@@ -197,6 +200,21 @@ void UI_Menu_Home()
     u8g2_DrawStr(&u8g2, 5, 15*2, "Right Motor");
     u8g2_DrawStr(&u8g2, 5, 15*3, "Turn");
     u8g2_DrawStr(&u8g2, 5, 15*4, USART_RX_STR);
+}
+
+
+void UI_Menu_Monitor()
+{
+	  sprintf(UI_TempStr,"L:%f",motor_l.Encoder);
+    u8g2_DrawStr(&u8g2, 0, 12, UI_TempStr);
+    sprintf(UI_TempStr,"R:%f",motor_r.Encoder);
+    u8g2_DrawStr(&u8g2, 64, 12, UI_TempStr);
+    sprintf(UI_TempStr,"b_err:%f",bias_error);
+    u8g2_DrawStr(&u8g2, 0, 24, UI_TempStr);
+    sprintf(UI_TempStr,"out:%f",Turn.pidout);
+    u8g2_DrawStr(&u8g2, 0, 36, UI_TempStr);
+    sprintf(UI_TempStr,"err:%f",Turn.errdat);
+    u8g2_DrawStr(&u8g2, 0, 48, UI_TempStr);
 }
 
 /*
