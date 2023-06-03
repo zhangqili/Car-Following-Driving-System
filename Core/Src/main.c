@@ -133,6 +133,7 @@ int main(void)
   USART_RX_BUF[2]='c';
   USART_RX_BUF[3]='\0';
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
+	UI_Menu=MONITOR;
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //在NVIC中断控制器中关闭EXTI12中断
   //MPU6050_Init(); //⒊跏蓟痬pu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
@@ -169,20 +170,9 @@ int main(void)
 			
 			USART_RX_FLG=0;
 		}
-		//UI_Update();
-		//UI_Render();
+		UI_Update();
+		UI_Render();
 		
-		 u8g2_ClearBuffer(&u8g2);
-		Get_Speed();
-    sprintf(UI_TempStr,"P:%d",motor_l.Encoder);
-    u8g2_DrawStr(&u8g2, 5, 15, UI_TempStr);
-    sprintf(UI_TempStr,"I:%d",motor_r.Encoder);
-    u8g2_DrawStr(&u8g2, 5, 15*2, UI_TempStr);
-    sprintf(UI_TempStr,"D:%f",bias_error);
-    u8g2_DrawStr(&u8g2, 5, 15*3, USART_RX_STR);
-//    sprintf(UI_TempStr,"Interval:%f",UI_Interval);
-//    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
-      u8g2_SendBuffer(&u8g2);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

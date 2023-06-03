@@ -38,5 +38,6 @@ extern float expect_speed;
 int Up_balance(float Angle,float Gyro,float Mechanical_Angle);
 int Velocity(int Encoder_left,int Encoder_right,int Mechanical_velocity);
 int Turn_out(int gyro_Z,int RC);
+void Track(float expect_speed);
 
 #endif /* PID_CONTROL_PID_CONTROL_H_*/
