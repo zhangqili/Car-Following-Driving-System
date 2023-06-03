@@ -57,7 +57,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)//在inv_mpu.h设置的mpu6050采样率为
 		   Get_Encoder(); //得到左右编码器计数值即左右电机转速
 		   balance_up=Up_balance(pitch,gy,Mechanical_Angle); //直立环
 		   velocity=Velocity( Encoder_Left,Encoder_Right,Mechanical_velocity); //速度环
-			 turn_out=Turn_out(yaw,turn_speed);
+		   turn_out=Turn_out(yaw,turn_speed);
 		   PWMA= balance_up+velocity-turn_out; //并联直立环与速度环
 		   PWMB= balance_up+velocity+turn_out; 
 		   Limit(&PWMA,&PWMB);        //PWM限幅
@@ -103,6 +103,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM1)
 	{
+		Turn.errdat=bias_error;
 		Turn.pGain=15;
 		Turn.dGain=25;
 		motor_pid_l.pGain=20;

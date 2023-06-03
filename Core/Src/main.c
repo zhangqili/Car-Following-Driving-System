@@ -136,13 +136,13 @@ int main(void)
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //在NVIC中断控制器中关闭EXTI12中断
   //MPU6050_Init(); //⒊跏蓟痬pu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
-//  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim1);
 
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1); //开启TIM2的PWM
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
   HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL); //开启TIM3 4的编码器模式
   HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
-	HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);
+  HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);
 	
 	/*
   OLED_Init(); //OLED的初始化
@@ -174,14 +174,16 @@ int main(void)
 		
 		 u8g2_ClearBuffer(&u8g2);
 		Get_Speed();
-    sprintf(UI_TempStr,"P:%d",motor_l.Encoder);
+    sprintf(UI_TempStr,"L:%d",motor_l.Encoder);
     u8g2_DrawStr(&u8g2, 5, 15, UI_TempStr);
-    sprintf(UI_TempStr,"I:%d",motor_r.Encoder);
+	sprintf(UI_TempStr,"R:%d",motor_r.Encoder);
+    u8g2_DrawStr(&u8g2, 50, 15, UI_TempStr);
+    sprintf(UI_TempStr,"b_err:%f",bias_error);
     u8g2_DrawStr(&u8g2, 5, 15*2, UI_TempStr);
-    sprintf(UI_TempStr,"D:%f",bias_error);
-    u8g2_DrawStr(&u8g2, 5, 15*3, USART_RX_STR);
-//    sprintf(UI_TempStr,"Interval:%f",UI_Interval);
-//    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
+    sprintf(UI_TempStr,"out:%f",Turn.pidout);
+    u8g2_DrawStr(&u8g2, 5, 15*3, UI_TempStr);
+    sprintf(UI_TempStr,"err:%f",Turn.errdat);
+    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
       u8g2_SendBuffer(&u8g2);
     /* USER CODE END WHILE */
 
@@ -213,7 +215,7 @@ int main(void)
 	  OLED_Showdecimal(36,7,Encoder_Left,5,2,12, 0);
 		*/
 
-		Give_Motor_PWM(1000,1000);
+		//Give_Motor_PWM(1000,1000);
   }
   /* USER CODE END 3 */
 }

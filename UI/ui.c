@@ -169,9 +169,6 @@ void UI_Render()
     case MENU_PID:
         UI_Menu_PID();
         break;
-    case MONITOR:
-        UI_Menu_Monitor();
-        break;
     }
     u8g2_DrawFrame(&u8g2, 2, UI_Selection*15, 120, 17);
     u8g2_SendBuffer(&u8g2);
@@ -200,19 +197,6 @@ void UI_Menu_Home()
     u8g2_DrawStr(&u8g2, 5, 15*2, "Right Motor");
     u8g2_DrawStr(&u8g2, 5, 15*3, "Turn");
     u8g2_DrawStr(&u8g2, 5, 15*4, USART_RX_STR);
-}
-
-
-void UI_Menu_Monitor()
-{
-	  sprintf(UI_TempStr,"L:%f",UI_PID_t->pGain);
-    u8g2_DrawStr(&u8g2, 0, 12, UI_TempStr);
-    sprintf(UI_TempStr,"R:%f",UI_PID_t->iGain);
-    u8g2_DrawStr(&u8g2, 0, 12, UI_TempStr);
-    sprintf(UI_TempStr,":%f",UI_PID_t->dGain);
-    u8g2_DrawStr(&u8g2, 5, 15*3, UI_TempStr);
-    sprintf(UI_TempStr,"Interval:%f",UI_Interval);
-    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
 }
 
 /*

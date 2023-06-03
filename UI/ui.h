@@ -22,7 +22,7 @@
 
 typedef enum
 {
-    HOME, MENU_PID, MONITOR
+    HOME, MENU_PID
 } UI_MENU;
 
 typedef enum
@@ -65,6 +65,5 @@ void UI_DrawScatterPlot(u8g2_t * u8g2_ptr, u8g2_uint_t x, u8g2_uint_t y, u8g2_ui
 void UI_Menu_PID();
 void UI_Menu_Menu();
 void UI_Menu_Home();
-void UI_Menu_Monitor();
 
 #endif /* UI_H_ */
