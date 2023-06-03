@@ -35,9 +35,11 @@ extern PID Turn_Angle;
 
 extern float bias_error;
 extern float expect_speed;
+extern uint8_t speed_l;//应当期待的左轮速度
+extern uint8_t speed_r;//应当期待的右轮速度
 int Up_balance(float Angle,float Gyro,float Mechanical_Angle);
 int Velocity(int Encoder_left,int Encoder_right,int Mechanical_velocity);
 int Turn_out(int gyro_Z,int RC);
-void Track(float expect_speed);
-
-#endif /* PID_CONTROL_PID_CONTROL_H_*/
+void Track(uint8_t expect_speed);
+#endif
+/* PID_CONTROL_PID_CONTROL_H_*/
