@@ -75,6 +75,7 @@ float pitch,roll,yaw=0;   //欧拉角
 int PWMA,PWMB=0;   //计算出来的最终赋给电机的PWM
 float tempFloat;
 uint8_t tempInt;
+uint8_t* f_ptr;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -164,7 +165,9 @@ int main(void)
 		if(USART_RX_FLG)
 		{
 			//sscanf(USART_RX_BUF,"%f",&bias_error);
-			sscanf(USART_RX_BUF,"\x2c\x12%f\x5b",&bias_error);
+			f_ptr = (unsigned char*)&bias_error;
+			sscanf(USART_RX_BUF,"\x2c\x12%c%c%c%c\x5b",f_ptr,f_ptr+1,f_ptr+2,f_ptr+3);
+			
 			//sprintf(USART_RX_STR,"%f",bias_error);
 			strcpy(USART_RX_STR,USART_RX_BUF);
 			
