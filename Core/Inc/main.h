@@ -75,9 +75,6 @@ void Error_Handler(void);
 #define BIN1_GPIO_Port GPIOB
 #define BIN2_Pin GPIO_PIN_15
 #define BIN2_GPIO_Port GPIOB
-#define INT_Pin GPIO_PIN_8
-#define INT_GPIO_Port GPIOA
-#define INT_EXTI_IRQn EXTI9_5_IRQn
 #define DOWN_Pin GPIO_PIN_15
 #define DOWN_GPIO_Port GPIOA
 #define UP_Pin GPIO_PIN_3

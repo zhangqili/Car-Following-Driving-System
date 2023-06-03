@@ -10,7 +10,7 @@
 #include "main.h"
 #include "stm32f1xx_hal.h" //HAL库文件声明
 extern UART_HandleTypeDef huart1;//声明USART2的HAL库结构体
-
+extern int count;
 #define USART1_REC_LEN  200//定义USART2最大接收字节数
 
 extern uint8_t  USART1_RX_BUF[USART1_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为校验和

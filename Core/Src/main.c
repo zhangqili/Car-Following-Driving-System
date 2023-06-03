@@ -180,10 +180,14 @@ int main(void)
     u8g2_DrawStr(&u8g2, 50, 15, UI_TempStr);
     sprintf(UI_TempStr,"b_err:%f",bias_error);
     u8g2_DrawStr(&u8g2, 5, 15*2, UI_TempStr);
-    sprintf(UI_TempStr,"out:%f",Turn.pidout);
+    sprintf(UI_TempStr,"p_l:%.1f",motor_pid_l.pidout);
     u8g2_DrawStr(&u8g2, 5, 15*3, UI_TempStr);
-    sprintf(UI_TempStr,"err:%f",Turn.errdat);
+    sprintf(UI_TempStr,"p_r:%.1f",motor_pid_r.pidout);
+    u8g2_DrawStr(&u8g2, 60, 15*3, UI_TempStr);
+	sprintf(UI_TempStr,"dif:%d",Speed_differ);
     u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
+	sprintf(UI_TempStr,"err:%d",Speed_differ);
+    u8g2_DrawStr(&u8g2, 50, 15*4, UI_TempStr);
       u8g2_SendBuffer(&u8g2);
     /* USER CODE END WHILE */
 
@@ -215,7 +219,7 @@ int main(void)
 	  OLED_Showdecimal(36,7,Encoder_Left,5,2,12, 0);
 		*/
 
-		//Give_Motor_PWM(1000,1000);
+		//Give_Motor_PWM(2500,2500);
   }
   /* USER CODE END 3 */
 }

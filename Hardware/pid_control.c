@@ -17,8 +17,9 @@ float Limit_distance;
 float distance;
 float bias_error;//循迹偏差
 float position_distance;//目标距离差
-uint8_t speed_l;//应当期待的左轮速度
-uint8_t speed_r;//应当期待的右轮速度
+int8_t speed_l;//应当期待的左轮速度
+int8_t speed_r;//应当期待的右轮速度
+int8_t Speed_differ=0;
 float expect_speed;//期待速度
 float defult;//这里所有的控制速度有关都用default 避免状态改变导致expect_speed改变
 float stage;//这里指用来写状态
@@ -48,12 +49,21 @@ void PidLocCtrl(PID*pid,float limit)
     pid->pidout=pid->pGain/100*pid->errdat+pid->iGain*pid->instate+pid->dGain/100*(pid->errdat-pid->perr);
     pid->perr=pid->errdat;
 }
-void Motor_PID(float speed_l,float speed_r)
+void Motor_PID(int speed_l,int speed_r)
 {
     motor_pid_l.errdat=speed_l- motor_l.Encoder;
     motor_pid_r.errdat=speed_r-motor_r.Encoder;
     PidIncCtrl(&motor_pid_l);
     PidIncCtrl(&motor_pid_r);
+	if(motor_pid_l.pidout>3000)
+        motor_pid_l.pidout=3000;
+    else if(motor_pid_l.pidout<-3000)
+        motor_pid_l.pidout=-3000;
+
+    if(motor_pid_r.pidout>3000)
+        motor_pid_r.pidout=3000;
+    else if(motor_pid_r.pidout<-3000)
+        motor_pid_r.pidout=-3000;
 	Give_Motor_PWM(motor_pid_l.pidout,motor_pid_r.pidout);
 }
 
@@ -66,8 +76,9 @@ void Turn_Control(void)
 //单独小车循迹
 void Track(uint8_t expect_speed)
 {
-	uint8_t Speed_differ=0;
 	defult=expect_speed;
+	Turn.errdat=bias_error;
+	//Turn.errdat=0;
 	PidLocCtrl(&Turn,0);
 	Speed_differ=Turn.pidout;
 	speed_l=defult+Speed_differ;

@@ -297,5 +297,56 @@ void uart2_revice_my_data(void)
     }
     */
 }
+void datasplit(float data,unsigned char *buf)
+{
+    for(int i=0;i<4;i++)
+        buf[i]=(*((unsigned char *)(&data)+i));
+}
+void send_dataF(float data1,float data2,float data3,float data4,float data5)
+{
+    uint8_t databuf[8+20];//10Ϊ���ݳ���
+    databuf[0]=0xAB;
+    databuf[1]=0xFF;
+    databuf[2]=0xFF;
+    databuf[3]=0xF1;
+    databuf[4]=20;
+    databuf[5]=0x00;
+    //���
+    unsigned char buf[4]={0};
+    uint8_t _count=6;
+    datasplit(data1,buf);
+    for(int i=0;i<4;i++)
+        databuf[_count++]=buf[i];
+    datasplit(data2,buf);
+    for(int i=0;i<4;i++)
+        databuf[_count++]=buf[i];
+    datasplit(data3,buf);
+    for(int i=0;i<4;i++)
+        databuf[_count++]=buf[i];
+    datasplit(data4,buf);
+    for(int i=0;i<4;i++)
+        databuf[_count++]=buf[i];
+    datasplit(data5,buf);
+    for(int i=0;i<4;i++)
+        databuf[_count++]=buf[i];
+
+    uint8_t sumcheck=0;
+    uint8_t addcheck=0;
+    for(int i=0;i<26;i++)
+    {
+        sumcheck+=databuf[i];
+        addcheck+=sumcheck;
+    }
+    databuf[26]=sumcheck;
+    databuf[27]=addcheck;
+    //uart_write_buffer(UART_2,databuf,28);
+	Uart1_SendStr((uint8_t *)databuf);
+//    wireless_uart_send_buff(databuf,28);
+//    for(int i=0;i<28;i++)
+//    {
+//        wireless_uart_send_byte( databuf[i]);
+//    }
+}
+
 
 /* USER CODE END 1 */

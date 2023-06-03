@@ -75,7 +75,7 @@ void Get_Encoder()
 {
 	motor_l.Encoder=(short) __HAL_TIM_GET_COUNTER(&htim3);     //保存编码器计数器的值
 	motor_r.Encoder=(short) __HAL_TIM_GET_COUNTER(&htim4);
-	motor.Encoder=0.5*(motor_l.Encoder+motor_r.Encoder);
+	//motor.Encoder=0.5*(motor_l.Encoder+motor_r.Encoder);
 }
 
 void Get_Speed(void)
@@ -83,7 +83,7 @@ void Get_Speed(void)
 	Get_Encoder();
 	motor_l.Encoder=SecondOrderLagFilter_L(motor_l.Encoder);
 	motor_r.Encoder=SecondOrderLagFilter_R(motor_r.Encoder);
-	motor.Encoder=SecondOrderLagFilter_Motor(motor.Encoder);
+//	motor.Encoder=SecondOrderLagFilter_Motor(motor.Encoder);
 	__HAL_TIM_SET_COUNTER(&htim3,0);                   //保存之后要清零,以便下次继续读取.另外每次清零后采样值减0,直接用单位时间的话就可以得出速度信息了.不要麻烦还要减去初值了.
 	__HAL_TIM_SET_COUNTER(&htim4,0);
 }
@@ -95,10 +95,10 @@ void Get_Speed(void)
  * @param {int*} *PWMB 数据 :右电机PWM值
  * @return {*}
  */
-void Limit(int *PWMA,int *PWMB)
+void Limit(float *PWMA,float *PWMB)
 {
-	*PWMA=*PWMA>6900?6900:(*PWMA<-6900?-6900:*PWMA);
-	*PWMB=*PWMB>6900?6900:(*PWMB<-6900?-6900:*PWMB);
+	*PWMA=*PWMA>3000?3000:(*PWMA<-3000?-3000:*PWMA);
+	*PWMB=*PWMB>3000?3000:(*PWMB<-3000?-3000:*PWMB);
 }
 
 
