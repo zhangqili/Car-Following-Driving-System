@@ -82,8 +82,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance == TIM1)
 	{	
 		
-		if(count>=500)
-		{
 			//Turn.pGain=23;
 			//Turn.dGain=30;
 			//motor_pid_l.pGain=150;
@@ -91,9 +89,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			//motor_pid_r.pGain=150;
 			//motor_pid_r.iGain=14;
 			Track(10);
-		}
-		
-		count++;
 		send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 	}
 }

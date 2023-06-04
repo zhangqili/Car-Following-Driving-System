@@ -55,7 +55,7 @@ extern uint8_t DOWN_Flag;
 extern uint8_t PLUS_Flag;
 extern uint8_t MINUS_Flag;
 
-extern uint8_t UI_TempStr[16];
+extern char UI_TempStr[32];
 
 void UI_Init();
 void UI_Update();

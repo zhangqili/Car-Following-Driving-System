@@ -17,7 +17,7 @@ Rectangle cursor={0,0,0};
 UI_MENU UI_Menu=HOME;
 UI_PID UI_pid=0;
 int8_t UI_Selection = 0;
-uint8_t UI_TempStr[16];
+char UI_TempStr[32];
 float UI_Interval=1;
 
 uint8_t UI_Keys[4]={1};
@@ -184,7 +184,8 @@ void UI_Render()
     }
 		if(UI_Menu!=MONITOR)
 			u8g2_DrawFrame(&u8g2, 2, UI_Selection*ITEM_HEIGHT, 120, ITEM_HEIGHT+2);
-		if(UI_Alive_Flag=!UI_Alive_Flag)
+		UI_Alive_Flag=!UI_Alive_Flag;
+		if(UI_Alive_Flag)
 			u8g2_DrawStr(&u8g2, 120, 64,"A");
     u8g2_SendBuffer(&u8g2);
 }
@@ -211,7 +212,7 @@ void UI_Menu_Home()
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT, "Left Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*2, "Right Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*3, "Turn");
-    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, USART_RX_STR);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, (const char *)USART_RX_STR);
 }
 
 

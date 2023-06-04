@@ -74,7 +74,7 @@ short gx,gy,gz=0;   //���ٶ�
 float pitch,roll,yaw=0;   //ŷ����
 int PWMA,PWMB=0;   //������������ո��������PWM
 float tempFloat;
-uint8_t tempInt;
+uint8_t tempInt8[2];
 uint8_t* f_ptr;
 /* USER CODE END PV */
 
@@ -193,14 +193,15 @@ int main(void)
 		if(USART_RX_FLG)
 		{
 			//sscanf(USART_RX_BUF,"%f",&bias_error);
-			if(USART_RX_CNT==7)
+			if(USART_RX_CNT==5)
 			{
-				f_ptr = (unsigned char*)&bias_error;
-				sscanf(USART_RX_BUF,"\x2c\x12%c%c%c%c\x5b",f_ptr,f_ptr+1,f_ptr+2,f_ptr+3);
+				//f_ptr = (unsigned char*)&bias_error;
+				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c\x5b",tempInt8,tempInt8+1);
+				bias_error=tempInt8[0];
 			}
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);
-			strcpy(USART_RX_STR,USART_RX_BUF);
+			//strcpy(USART_RX_STR,USART_RX_BUF);
 			USART_RX_CNT=0;
 			USART_RX_FLG=0;
 		}
