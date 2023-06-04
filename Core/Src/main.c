@@ -205,23 +205,6 @@ int main(void)
 		UI_Update();
 		UI_Render();
 		
-		 u8g2_ClearBuffer(&u8g2);
-		Get_Speed();
-    sprintf(UI_TempStr,"R:%d",motor_l.Encoder);
-    u8g2_DrawStr(&u8g2, 5, 15, UI_TempStr);
-	sprintf(UI_TempStr,"L:%d",motor_r.Encoder);
-    u8g2_DrawStr(&u8g2, 50, 15, UI_TempStr);
-    sprintf(UI_TempStr,"b_err:%f",bias_error);
-    u8g2_DrawStr(&u8g2, 5, 15*2, UI_TempStr);
-    sprintf(UI_TempStr,"p_l:%.1f",motor_pid_l.pidout);
-    u8g2_DrawStr(&u8g2, 5, 15*3, UI_TempStr);
-    sprintf(UI_TempStr,"p_r:%.1f",motor_pid_r.pidout);
-    u8g2_DrawStr(&u8g2, 60, 15*3, UI_TempStr);
-	sprintf(UI_TempStr,"dif:%d",Speed_differ);
-    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
-	sprintf(UI_TempStr,"err:%d",Speed_differ);
-    u8g2_DrawStr(&u8g2, 50, 15*4, UI_TempStr);
-      u8g2_SendBuffer(&u8g2);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
