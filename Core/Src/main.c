@@ -137,7 +137,7 @@ int main(void)
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //在NVIC中断控制器中关闭EXTI12中断
   //MPU6050_Init(); //⒊跏蓟痬pu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
-  //HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim1);
 
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1); //开启TIM2的PWM
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
@@ -223,7 +223,7 @@ int main(void)
 	  OLED_Showdecimal(36,7,Encoder_Left,5,2,12, 0);
 		*/
 
-		Give_Motor_PWM(2500,2500);
+		//Give_Motor_PWM(2500,2500);
   }
   /* USER CODE END 3 */
 }

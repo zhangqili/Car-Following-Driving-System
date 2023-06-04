@@ -52,6 +52,8 @@ void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN Prototypes */
 void Uart1_SendStr(char*SendBuf);
 void uart2_revice_my_data(void);
+void send_dataF(float data1,float data2,float data3,float data4,float data5);
+
 
 /* USER CODE END Prototypes */
 

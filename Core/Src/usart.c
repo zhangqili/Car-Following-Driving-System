@@ -51,7 +51,7 @@ void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
+  huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -316,24 +316,34 @@ void send_dataF(float data1,float data2,float data3,float data4,float data5)
     databuf[3]=0xF1;
     databuf[4]=20;
     databuf[5]=0x00;
-    //ï¿½ï¿½ï¿½
-    unsigned char buf[4]={0};
+    //ï¿½ï¿½ï¿?
+    uint8_t buf[4]={0};
     uint8_t _count=6;
-    datasplit(data1,buf);
+		uint8_t *_f_ptr;
+    //datasplit(data1,buf);
+		_f_ptr=(uint8_t *)(&data1);
     for(int i=0;i<4;i++)
-        databuf[_count++]=buf[i];
-    datasplit(data2,buf);
+        databuf[_count++]=*(_f_ptr+i);
+    //datasplit(data2,buf);
+		_f_ptr=(uint8_t *)(&data2);
     for(int i=0;i<4;i++)
-        databuf[_count++]=buf[i];
-    datasplit(data3,buf);
+        databuf[_count++]=*(_f_ptr+i);
+        //databuf[_count++]=buf[i];
+    //datasplit(data3,buf);
+		_f_ptr=(uint8_t *)(&data3);
     for(int i=0;i<4;i++)
-        databuf[_count++]=buf[i];
-    datasplit(data4,buf);
+        databuf[_count++]=*(_f_ptr+i);
+        //databuf[_count++]=buf[i];
+    //datasplit(data4,buf);
+		_f_ptr=(uint8_t *)(&data4);
     for(int i=0;i<4;i++)
-        databuf[_count++]=buf[i];
-    datasplit(data5,buf);
+        databuf[_count++]=*(_f_ptr+i);
+        //databuf[_count++]=buf[i];
+    //datasplit(data5,buf);
+		_f_ptr=(uint8_t *)(&data5);
     for(int i=0;i<4;i++)
-        databuf[_count++]=buf[i];
+        databuf[_count++]=*(_f_ptr+i);
+        //databuf[_count++]=buf[i];
 
     uint8_t sumcheck=0;
     uint8_t addcheck=0;
@@ -345,7 +355,7 @@ void send_dataF(float data1,float data2,float data3,float data4,float data5)
     databuf[26]=sumcheck;
     databuf[27]=addcheck;
     //uart_write_buffer(UART_2,databuf,28);
-	Uart1_SendStr((uint8_t *)databuf);
+	  HAL_UART_Transmit(&huart1,databuf,28,0xff);
 //    wireless_uart_send_buff(databuf,28);
 //    for(int i=0;i<28;i++)
 //    {

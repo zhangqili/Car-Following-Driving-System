@@ -92,6 +92,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			Track(15);
 		}
 		count++;
+		send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 	}
-			//send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 }
