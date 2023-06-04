@@ -33,11 +33,11 @@
 #include "ui.h"
 #include "string.h"
 #include "display.h"
-#include "ui.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "pid_control.h"
 #include "motor_control.h"
+#include "flash.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -129,15 +129,16 @@ int main(void)
 	
 	/* UI PRESETS BEGIN */
 	
-		Turn.pGain=15;
-		Turn.dGain=25;
-		motor_pid_l.pGain=20;
-		motor_pid_l.iGain=10;
-		motor_pid_r.pGain=20;
-		motor_pid_r.iGain=10;
+	//Turn.pGain=15;
+	//Turn.dGain=25;
+	//motor_pid_l.pGain=20;
+	//motor_pid_l.iGain=10;
+	//motor_pid_r.pGain=20;
+	//motor_pid_r.iGain=10;
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
 	//while(1)
+	Flash_Recovery();
 	while(UI_Flag)
 	{
 		/*
@@ -155,6 +156,7 @@ int main(void)
 		UI_Update();
 		UI_Render();
 	}
+	Flash_Save();
 	UI_Menu=MONITOR;
 	/* UI PRESETS END */
 	

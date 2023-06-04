@@ -43,6 +43,8 @@ typedef struct
 extern Rectangle cursor;
 extern UI_MENU UI_Menu;
 
+extern float UI_Interval;
+
 extern uint8_t UI_Keys[4];
 extern uint8_t UI_Keys1[4];
 extern uint8_t UI_Flag;
