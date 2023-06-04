@@ -217,9 +217,10 @@ void UI_Menu_Home()
 
 void UI_Menu_Monitor()
 {
-	sprintf(UI_TempStr,"L:%f",motor_l.Encoder);
+
+	  sprintf(UI_TempStr,"L:%d",motor_l.Encoder);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT, UI_TempStr);
-    sprintf(UI_TempStr,"R:%f",motor_r.Encoder);
+    sprintf(UI_TempStr,"R:%d",motor_r.Encoder);
     u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"b_err:%f",bias_error);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);

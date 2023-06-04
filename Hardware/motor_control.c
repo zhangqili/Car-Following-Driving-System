@@ -53,7 +53,7 @@ float SecondOrderLagFilter_Motor(uint8_t value)
     last_value=value;
     return value;
 }
-float SecondOrderLagFilter_L(uint8_t value)
+float SecondOrderLagFilter_L(int8_t value)
 {
     static float last_value,last_2_value;
     value=0.2*value+0.4*last_value+0.4*last_2_value;     //�����ͺ��˲�
@@ -62,7 +62,7 @@ float SecondOrderLagFilter_L(uint8_t value)
     return value;
 }
 
-float SecondOrderLagFilter_R(uint8_t value)
+float SecondOrderLagFilter_R(int8_t value)
 {
     static float last_value,last_2_value;
     value=0.2*value+0.4*last_value+0.4*last_2_value;     //�����ͺ��˲�
