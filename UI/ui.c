@@ -183,7 +183,7 @@ void UI_Render()
         break;
     }
 		if(UI_Menu!=MONITOR)
-			u8g2_DrawFrame(&u8g2, 2, UI_Selection*ITEM_HEIGHT, 120, 17);
+			u8g2_DrawFrame(&u8g2, 2, UI_Selection*ITEM_HEIGHT, 120, ITEM_HEIGHT+2);
 		if(UI_Alive_Flag=!UI_Alive_Flag)
 			u8g2_DrawStr(&u8g2, 120, 64,"A");
     u8g2_SendBuffer(&u8g2);
@@ -228,6 +228,10 @@ void UI_Menu_Monitor()
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*3, UI_TempStr);
     sprintf(UI_TempStr,"err:%f",Turn.errdat);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*4, UI_TempStr);
+    sprintf(UI_TempStr,"l_e:%d",speed_l);
+    u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*5, UI_TempStr);
+    sprintf(UI_TempStr,"r_e:%d",speed_r);
+    u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT*5, UI_TempStr);
 }
 
 /*

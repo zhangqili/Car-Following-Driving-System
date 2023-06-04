@@ -11,7 +11,7 @@
 #include "main.h"
 #include "display.h"
 
-#define ITEM_HEIGHT 14
+#define ITEM_HEIGHT 12
 
 #define OK_BUTTON HAL_GPIO_ReadPin(OK_GPIO_Port, OK_Pin)
 #define BACK_BUTTON HAL_GPIO_ReadPin(BACK_GPIO_Port, BACK_Pin)
