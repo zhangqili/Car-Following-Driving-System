@@ -127,12 +127,30 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	/* UI PRESETS BEGIN */
-	HAL_Delay(500);
+	
+		Turn.pGain=15;
+		Turn.dGain=25;
+		motor_pid_l.pGain=20;
+		motor_pid_l.iGain=10;
+		motor_pid_r.pGain=20;
+		motor_pid_r.iGain=10;
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
+	//while(1)
 	while(UI_Flag)
 	{
+		/*
+		u8g2_ClearBuffer(&u8g2);
+		if(OK_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*1,"OK");
+		if(BACK_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*2,"BACK");
+		if(UP_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*3,"UP");
+		if(DOWN_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*4,"DOWN");
+		u8g2_SendBuffer(&u8g2);
+		*/
 		UI_Update();
 		UI_Render();
 	}
@@ -140,6 +158,7 @@ int main(void)
 	/* UI PRESETS END */
 	
 	
+	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //在NVIC中断控制器中关闭EXTI12中断
   //MPU6050_Init(); //⒊跏蓟痬pu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
