@@ -165,8 +165,11 @@ int main(void)
 		if(USART_RX_FLG)
 		{
 			//sscanf(USART_RX_BUF,"%f",&bias_error);
-			f_ptr = (unsigned char*)&bias_error;
-			sscanf(USART_RX_BUF,"\x2c\x12%c%c%c%c\x5b",f_ptr,f_ptr+1,f_ptr+2,f_ptr+3);
+			if(USART_RX_CNT==7)
+			{
+				f_ptr = (unsigned char*)&bias_error;
+				sscanf(USART_RX_BUF,"\x2c\x12%c%c%c%c\x5b",f_ptr,f_ptr+1,f_ptr+2,f_ptr+3);
+			}
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);
 			strcpy(USART_RX_STR,USART_RX_BUF);
