@@ -202,8 +202,8 @@ int main(void)
 			USART_RX_CNT=0;
 			USART_RX_FLG=0;
 		}
-		//UI_Update();
-		//UI_Render();
+		UI_Update();
+		UI_Render();
 		
 		 u8g2_ClearBuffer(&u8g2);
 		Get_Speed();

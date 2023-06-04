@@ -217,7 +217,8 @@ void UI_Menu_Home()
 
 void UI_Menu_Monitor()
 {
-	  sprintf(UI_TempStr,"L:%f",motor_l.Encoder);
+    Get_Speed();
+	sprintf(UI_TempStr,"L:%f",motor_l.Encoder);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"R:%f",motor_r.Encoder);
     u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
