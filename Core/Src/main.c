@@ -57,22 +57,22 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-float Up_balance_KP=200;   //Ð¡³µÖ±Á¢»·P²ÎÊý216
-float Up_balance_KD=1.1;  //Ð¡³µÖ±Á¢»·D²ÎÊý2
-float Velocity_KP=-53;   //Ð¡³µËÙ¶È»·P²ÎÊý-50
-float Velocity_KI=-0.265;    // Ð¡³µËÙ¶È»·I²ÎÊý-0.25
-float Turn_KP=-20;          //Ð¡³µ×ªÏò»·P²ÎÊý-20
-float Turn_KD=-0.6;          //Ð¡³µ×ªÏò»·D²ÎÊý-0.6
-float Mechanical_Angle=-5.5;   //½Ç¶ÈÖÐÖµ
-int Mechanical_velocity=0;   //ËÙ¶ÈÖÐÖµ
+float Up_balance_KP=200;   //Ð¡ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½216
+float Up_balance_KD=1.1;  //Ð¡ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Dï¿½ï¿½ï¿½ï¿½2
+float Velocity_KP=-53;   //Ð¡ï¿½ï¿½ï¿½Ù¶È»ï¿½Pï¿½ï¿½ï¿½ï¿½-50
+float Velocity_KI=-0.265;    // Ð¡ï¿½ï¿½ï¿½Ù¶È»ï¿½Iï¿½ï¿½ï¿½ï¿½-0.25
+float Turn_KP=-20;          //Ð¡ï¿½ï¿½×ªï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½-20
+float Turn_KD=-0.6;          //Ð¡ï¿½ï¿½×ªï¿½ï¿½Dï¿½ï¿½ï¿½ï¿½-0.6
+float Mechanical_Angle=-5.5;   //ï¿½Ç¶ï¿½ï¿½ï¿½Öµ
+int Mechanical_velocity=0;   //ï¿½Ù¶ï¿½ï¿½ï¿½Öµ
 int turn_speed=0;
-int Encoder_Left,Encoder_Right=0;   //×óÓÒ±àÂëÆ÷µÄÂö³å¼ÆÊý
+int Encoder_Left,Encoder_Right=0;   //ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 int balance_up=0;
 int velocity=0;
 int turn_out=0;
-short gx,gy,gz=0;   //½ÇËÙ¶È
-float pitch,roll,yaw=0;   //Å·À­½Ç
-int PWMA,PWMB=0;   //¼ÆËã³öÀ´µÄ×îÖÕ¸³¸øµç»úµÄPWM
+short gx,gy,gz=0;   //ï¿½ï¿½ï¿½Ù¶ï¿½
+float pitch,roll,yaw=0;   //Å·ï¿½ï¿½ï¿½ï¿½
+int PWMA,PWMB=0;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PWM
 float tempFloat;
 uint8_t tempInt;
 uint8_t* f_ptr;
@@ -127,34 +127,60 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	
+	/* UI PRESETS BEGIN */
+	
+		Turn.pGain=15;
+		Turn.dGain=25;
+		motor_pid_l.pGain=20;
+		motor_pid_l.iGain=10;
+		motor_pid_r.pGain=20;
+		motor_pid_r.iGain=10;
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-  USART_RX_BUF[0]='a';
-  USART_RX_BUF[1]='b';
-  USART_RX_BUF[2]='c';
-  USART_RX_BUF[3]='\0';
+	//while(1)
+	while(UI_Flag)
+	{
+		/*
+		u8g2_ClearBuffer(&u8g2);
+		if(OK_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*1,"OK");
+		if(BACK_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*2,"BACK");
+		if(UP_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*3,"UP");
+		if(DOWN_BUTTON)
+			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*4,"DOWN");
+		u8g2_SendBuffer(&u8g2);
+		*/
+		UI_Update();
+		UI_Render();
+	}
+	UI_Menu=MONITOR;
+	/* UI PRESETS END */
+	
+	
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
-  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //ÔÚNVICÖÐ¶Ï¿ØÖÆÆ÷ÖÐ¹Ø±ÕEXTI12ÖÐ¶Ï
-  //MPU6050_Init(); //¢³õÊ¼»¯mpu6050
+  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //ï¿½ï¿½NVICï¿½Ð¶Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Ø±ï¿½EXTI12ï¿½Ð¶ï¿½
+  //MPU6050_Init(); //ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½mpu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
   HAL_TIM_Base_Start_IT(&htim1);
 
-  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1); //¿ªÆôTIM2µÄPWM
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1); //ï¿½ï¿½ï¿½ï¿½TIM2ï¿½ï¿½PWM
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL); //¿ªÆôTIM3 4µÄ±àÂëÆ÷Ä£Ê½
+  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL); //ï¿½ï¿½ï¿½ï¿½TIM3 4ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
   HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
   HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);
 	
 	/*
-  OLED_Init(); //OLEDµÄ³õÊ¼»¯
-  OLED_Clear();//OLEDÇåÆÁ
+  OLED_Init(); //OLEDï¿½Ä³ï¿½Ê¼ï¿½ï¿½
+  OLED_Clear();//OLEDï¿½ï¿½ï¿½ï¿½
   OLED_ShowString(0,1,"pitch:",12,0);
   OLED_ShowString(0,3,"gy:",12,0);
   OLED_ShowString(0,5,"goal v:",12,0);
   OLED_ShowString(0,7,"RX:",12,0);
 	*/
 
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);//ÔÚNVICÖÐ¶Ï¿ØÖÆÆ÷ÖÐÆôÓÃEXTI12ÖÐ¶Ï
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);//ï¿½ï¿½NVICï¿½Ð¶Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½EXTI12ï¿½Ð¶ï¿½
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -199,14 +225,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		if(USART1_RX_STA&0x8000)              //ÅÐ¶ÏÖÐ¶Ï½ÓÊÕ±êÖ¾Î»£¨À¶ÑÀÄ£¿éÊ¹ÓÃUSART1£©
+		if(USART1_RX_STA&0x8000)              //ï¿½Ð¶ï¿½ï¿½Ð¶Ï½ï¿½ï¿½Õ±ï¿½Ö¾Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½Ê¹ï¿½ï¿½USART1ï¿½ï¿½
       {
-    	 if((USART1_RX_STA&0x7FFF) ==3 	//ÅÐ¶Ï½ÓÊÕÊýÁ¿3¸ö                    
-    			&& USART1_RX_BUF[0]==0xA5 	//ÅÐ¶Ï½ÓÊÕµÚ1¸öÊý¾ÝÊÇ²»ÊÇ°üÍ·0xA5
-    			&& USART1_RX_BUF[2]==(USART1_RX_BUF[1])%0x100)	//ÅÐ¶Ï½ÓÊÕÐ£ÑéÂëÊÇ²»ÊÇÔ­Êý¾ÝÖ®ºÍµÄµÍ8Î»
+    	 if((USART1_RX_STA&0x7FFF) ==3 	//ï¿½Ð¶Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½                    
+    			&& USART1_RX_BUF[0]==0xA5 	//ï¿½Ð¶Ï½ï¿½ï¿½Õµï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½Ç°ï¿½Í·0xA5
+    			&& USART1_RX_BUF[2]==(USART1_RX_BUF[1])%0x100)	//ï¿½Ð¶Ï½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ÍµÄµï¿½8Î»
  	
     	{
-    		 switch(USART1_RX_BUF[1])      //½ÓÊÕ²¢¶ÁÈ¡À¶ÑÀ·¢ËÍ¹ýÀ´µÄµÚ2¸öÊý¾Ý
+    		 switch(USART1_RX_BUF[1])      //ï¿½ï¿½ï¿½Õ²ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¹ï¿½ï¿½ï¿½ï¿½Äµï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     		 {
     		 case(0x01):Mechanical_velocity=-15;break;
     		 case(0x02):Mechanical_velocity=15;break;
@@ -217,10 +243,10 @@ int main(void)
 
     		 }
     	 }
-         USART1_RX_STA=0;//±êÖ¾Î»Çå0£¬×¼±¸ÏÂ´Î½ÓÊÕ
+         USART1_RX_STA=0;//ï¿½ï¿½Ö¾Î»ï¿½ï¿½0ï¿½ï¿½×¼ï¿½ï¿½ï¿½Â´Î½ï¿½ï¿½ï¿½
       }
 			/*
-	  OLED_Showdecimal(36,1,pitch,5,2,12, 0); //OLEDÏÔÊ¾Ð¡ÊýÖµ
+	  OLED_Showdecimal(36,1,pitch,5,2,12, 0); //OLEDï¿½ï¿½Ê¾Ð¡ï¿½ï¿½Öµ
 	  OLED_Showdecimal(36,3,gy,5,2,12, 0);
 	  OLED_Showdecimal(36,5,Mechanical_velocity,5,2,12, 0);
 	  OLED_Showdecimal(36,7,Encoder_Left,5,2,12, 0);

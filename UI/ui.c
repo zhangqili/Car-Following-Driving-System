@@ -20,14 +20,17 @@ int8_t UI_Selection = 0;
 uint8_t UI_TempStr[16];
 float UI_Interval=1;
 
-uint8_t UI_Keys[4];
-uint8_t UI_Keys1[4];
+uint8_t UI_Keys[4]={1};
+uint8_t UI_Keys1[4]={1};
+uint8_t UI_Flag=1;
 uint8_t OK_Flag=0;
 uint8_t BACK_Flag=0;
 uint8_t UP_Flag=0;
 uint8_t DOWN_Flag=0;
 uint8_t PLUS_Flag=0;
 uint8_t MINUS_Flag=0;
+
+uint8_t UI_Alive_Flag=0;
 
 PID* UI_PID_t;
 //uint8_t home_str[][]={"Left Motor","Right Motor","Motor",};
@@ -48,13 +51,13 @@ void UI_Update()
         BACK_Flag=1;
     if(UI_Keys[1]&&(UI_Keys1[1]!=UI_Keys[1]))
         OK_Flag=1;
-    if(UI_Keys[1]&&UI_Keys[2]&&(UI_Keys1[2]!=UI_Keys[2]))
-        PLUS_Flag=1;
-    if(UI_Keys[1]&&UI_Keys[3]&&(UI_Keys1[3]!=UI_Keys[3]))
-        MINUS_Flag=1;
     if((!UI_Keys[1])&&UI_Keys[2]&&(UI_Keys1[2]!=UI_Keys[2]))
-        UP_Flag=1;
+        PLUS_Flag=1;
     if((!UI_Keys[1])&&UI_Keys[3]&&(UI_Keys1[3]!=UI_Keys[3]))
+        MINUS_Flag=1;
+    if((!PLUS_Flag)&&UI_Keys[2]&&(UI_Keys1[2]!=UI_Keys[2]))
+        UP_Flag=1;
+    if((!MINUS_Flag)&&UI_Keys[3]&&(UI_Keys1[3]!=UI_Keys[3]))
         DOWN_Flag=1;
 
     if(UP_Flag)
@@ -83,6 +86,12 @@ void UI_Update()
             OK_Flag=0;
             UI_Menu=MENU_PID;
             UI_pid = UI_Selection;
+        }
+        if(BACK_Flag)
+        {
+            BACK_Flag=0;
+            UI_Menu=MONITOR;
+						UI_Flag=0;
         }
         break;
     case MENU_PID:
@@ -173,20 +182,23 @@ void UI_Render()
         UI_Menu_Monitor();
         break;
     }
-    u8g2_DrawFrame(&u8g2, 2, UI_Selection*15, 120, 17);
+		if(UI_Menu!=MONITOR)
+			u8g2_DrawFrame(&u8g2, 2, UI_Selection*ITEM_HEIGHT, 120, 17);
+		if(UI_Alive_Flag=!UI_Alive_Flag)
+			u8g2_DrawStr(&u8g2, 120, 64,"A");
     u8g2_SendBuffer(&u8g2);
 }
 
 void UI_Menu_PID()
 {
     sprintf(UI_TempStr,"P:%f",UI_PID_t->pGain);
-    u8g2_DrawStr(&u8g2, 5, 15, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"I:%f",UI_PID_t->iGain);
-    u8g2_DrawStr(&u8g2, 5, 15*2, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"D:%f",UI_PID_t->dGain);
-    u8g2_DrawStr(&u8g2, 5, 15*3, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*3, UI_TempStr);
     sprintf(UI_TempStr,"Interval:%f",UI_Interval);
-    u8g2_DrawStr(&u8g2, 5, 15*4, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, UI_TempStr);
 }
 
 void UI_Menu_Menu()
@@ -196,25 +208,25 @@ void UI_Menu_Menu()
 
 void UI_Menu_Home()
 {
-    u8g2_DrawStr(&u8g2, 5, 15, "Left Motor");
-    u8g2_DrawStr(&u8g2, 5, 15*2, "Right Motor");
-    u8g2_DrawStr(&u8g2, 5, 15*3, "Turn");
-    u8g2_DrawStr(&u8g2, 5, 15*4, USART_RX_STR);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT, "Left Motor");
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*2, "Right Motor");
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*3, "Turn");
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, USART_RX_STR);
 }
 
 
 void UI_Menu_Monitor()
 {
 	  sprintf(UI_TempStr,"L:%f",motor_l.Encoder);
-    u8g2_DrawStr(&u8g2, 0, 12, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"R:%f",motor_r.Encoder);
-    u8g2_DrawStr(&u8g2, 64, 12, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"b_err:%f",bias_error);
-    u8g2_DrawStr(&u8g2, 0, 24, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"out:%f",Turn.pidout);
-    u8g2_DrawStr(&u8g2, 0, 36, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*3, UI_TempStr);
     sprintf(UI_TempStr,"err:%f",Turn.errdat);
-    u8g2_DrawStr(&u8g2, 0, 48, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*4, UI_TempStr);
 }
 
 /*

@@ -75,38 +75,41 @@ void Error_Handler(void);
 #define BIN1_GPIO_Port GPIOB
 #define BIN2_Pin GPIO_PIN_15
 #define BIN2_GPIO_Port GPIOB
-#define DOWN_Pin GPIO_PIN_15
-#define DOWN_GPIO_Port GPIOA
-#define UP_Pin GPIO_PIN_3
-#define UP_GPIO_Port GPIOB
-#define BACK_Pin GPIO_PIN_4
-#define BACK_GPIO_Port GPIOB
-#define OK_Pin GPIO_PIN_5
+#define INT_Pin GPIO_PIN_8
+#define INT_GPIO_Port GPIOA
+#define INT_EXTI_IRQn EXTI9_5_IRQn
+#define UP_Pin GPIO_PIN_15
+#define UP_GPIO_Port GPIOA
+#define DOWN_Pin GPIO_PIN_3
+#define DOWN_GPIO_Port GPIOB
+#define OK_Pin GPIO_PIN_4
 #define OK_GPIO_Port GPIOB
+#define BACK_Pin GPIO_PIN_5
+#define BACK_GPIO_Port GPIOB
 #define Encoder_Right_B_Pin GPIO_PIN_6
 #define Encoder_Right_B_GPIO_Port GPIOB
 #define Encoder_Right_A_Pin GPIO_PIN_7
 #define Encoder_Right_A_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-extern float Up_balance_KP;   //Ð¡³µÖ±Á¢»·P²ÎÊý
-extern float Up_balance_KD;  //Ð¡³µÖ±Á¢»·D²ÎÊý
-extern float Velocity_KP;   //Ð¡³µËÙ¶È»·P²ÎÊý
-extern float Velocity_KI;    // Ð¡³µËÙ¶È»·I²ÎÊý
-extern float Turn_KP;          //Ð¡³µ×ªÏò»·P²ÎÊý-20
+extern float Up_balance_KP;   //Ð¡ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½
+extern float Up_balance_KD;  //Ð¡ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Dï¿½ï¿½ï¿½ï¿½
+extern float Velocity_KP;   //Ð¡ï¿½ï¿½ï¿½Ù¶È»ï¿½Pï¿½ï¿½ï¿½ï¿½
+extern float Velocity_KI;    // Ð¡ï¿½ï¿½ï¿½Ù¶È»ï¿½Iï¿½ï¿½ï¿½ï¿½
+extern float Turn_KP;          //Ð¡ï¿½ï¿½×ªï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½-20
 extern float Turn_KD; 
 
 
-extern float Mechanical_Angle;   //½Ç¶È»úÐµÖÐÖµ
-extern int Mechanical_velocity;   //ËÙ¶È»úÐµÖÐÖµ
-extern int turn_speed;                   //×ªÏòÖÐÖµ
-extern int Encoder_Left,Encoder_Right;   //×óÓÒ±àÂëÆ÷µÄÂö³å¼ÆÊý
+extern float Mechanical_Angle;   //ï¿½Ç¶È»ï¿½Ðµï¿½ï¿½Öµ
+extern int Mechanical_velocity;   //ï¿½Ù¶È»ï¿½Ðµï¿½ï¿½Öµ
+extern int turn_speed;                   //×ªï¿½ï¿½ï¿½ï¿½Öµ
+extern int Encoder_Left,Encoder_Right;   //ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int balance_up;
 extern int velocity;
 extern int turn_out;
-extern short gx,gy,gz;   //ÂÝÒÇÔ­Ê¼Êý¾Ý
-extern float pitch,roll,yaw;   //Å·À­½Ç
-extern int PWMA,PWMB;   //¼ÆËã³öÀ´µÄ×îÖÕ¸³¸øµç»úµÄPWM
+extern short gx,gy,gz;   //ï¿½ï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½
+extern float pitch,roll,yaw;   //Å·ï¿½ï¿½ï¿½ï¿½
+extern int PWMA,PWMB;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PWM
 
 
 /* USER CODE END Private defines */
