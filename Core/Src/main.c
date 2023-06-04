@@ -173,7 +173,7 @@ int main(void)
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);
 			strcpy(USART_RX_STR,USART_RX_BUF);
-			
+			USART_RX_CNT=0;
 			USART_RX_FLG=0;
 		}
 		//UI_Update();
