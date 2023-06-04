@@ -45,6 +45,7 @@ extern UI_MENU UI_Menu;
 
 extern uint8_t UI_Keys[4];
 extern uint8_t UI_Keys1[4];
+extern uint8_t UI_Flag;
 extern uint8_t OK_Flag;
 extern uint8_t BACK_Flag;
 extern uint8_t UP_Flag;

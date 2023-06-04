@@ -22,6 +22,7 @@ float UI_Interval=1;
 
 uint8_t UI_Keys[4];
 uint8_t UI_Keys1[4];
+uint8_t UI_Flag=1;
 uint8_t OK_Flag=0;
 uint8_t BACK_Flag=0;
 uint8_t UP_Flag=0;
@@ -83,6 +84,12 @@ void UI_Update()
             OK_Flag=0;
             UI_Menu=MENU_PID;
             UI_pid = UI_Selection;
+        }
+        if(BACK_Flag)
+        {
+            BACK_Flag=0;
+            UI_Menu=MONITOR;
+						UI_Flag=0;
         }
         break;
     case MENU_PID:

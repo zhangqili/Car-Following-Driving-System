@@ -126,14 +126,20 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	
+	/* UI PRESETS BEGIN */
+	HAL_Delay(500);
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-  USART_RX_BUF[0]='a';
-  USART_RX_BUF[1]='b';
-  USART_RX_BUF[2]='c';
-  USART_RX_BUF[3]='\0';
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
+	while(UI_Flag)
+	{
+		UI_Update();
+		UI_Render();
+	}
 	UI_Menu=MONITOR;
+	/* UI PRESETS END */
+	
+	
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //在NVIC中断控制器中关闭EXTI12中断
   //MPU6050_Init(); //⒊跏蓟痬pu6050
 //  __HAL_TIM_CLEAR_FLAG(&htim1,TIM_FLAG_UPDATE);
