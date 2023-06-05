@@ -39,7 +39,7 @@ uint8_t MPU_Init(void)
   }
 	else
 	{
-		printf("Err mpu id:0x%x\r\n", res);
+		//printf("Err mpu id:0x%x\r\n", res);
 		return 1;
 	}
 }

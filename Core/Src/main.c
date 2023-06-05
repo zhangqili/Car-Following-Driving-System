@@ -74,7 +74,7 @@ short gx,gy,gz=0;   //���ٶ�
 float pitch,roll,yaw=0;   //ŷ����
 int PWMA,PWMB=0;   //������������ո��������PWM
 float tempFloat;
-uint8_t tempInt8[2];
+int8_t tempInt8[2];
 uint8_t* f_ptr;
 /* USER CODE END PV */
 
@@ -129,10 +129,10 @@ int main(void)
 	
 	/* PRESETS BEGIN */
 	Flash_Recovery();
-	if(HAL_GPIO_ReadPin(BOOT_GPIO_Port,BOOT_Pin))
-	{
 	  u8g2Init(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
+	if(HAL_GPIO_ReadPin(BOOT_GPIO_Port,BOOT_Pin))
+	{
 	  //while(1)
 	  while(UI_Flag)
 	  {
