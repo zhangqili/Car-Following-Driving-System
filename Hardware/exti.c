@@ -88,7 +88,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			//motor_pid_l.iGain=14;
 			//motor_pid_r.pGain=150;
 			//motor_pid_r.iGain=14;
+		Turn.errdat=bias_error*0.7+Turn.lastperr_errdat*0.3;
+		if(abs(Turn.errdat)>15)
+			Turn.pGain=15;
+		else 
+			Turn.pGain=13;
 			Track(10);
-		send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 	}
 }

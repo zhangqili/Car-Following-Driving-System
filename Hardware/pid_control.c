@@ -81,7 +81,7 @@ void Turn_Control(void)
 void Track(uint8_t expect_speed)
 {
 	defult=expect_speed;
-	Turn.errdat=bias_error*0.7+Turn.lastperr_errdat*0.3;
+	
 	//Turn.errdat=0;
 	PidLocCtrl(&Turn,0);
 	Speed_differ=-Turn.pidout;
