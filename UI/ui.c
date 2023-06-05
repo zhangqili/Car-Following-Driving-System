@@ -227,8 +227,10 @@ void UI_Menu_Monitor()
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"out:%f",Turn.pidout);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*3, UI_TempStr);
-    sprintf(UI_TempStr,"err:%f",Turn.errdat);
+    sprintf(UI_TempStr,"p_l:%4.0f",motor_pid_l.pidout);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*4, UI_TempStr);
+    sprintf(UI_TempStr,"p_r:%4.0f",motor_pid_r.pidout);
+    u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT*4, UI_TempStr);
     sprintf(UI_TempStr,"l_e:%d",speed_l);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*5, UI_TempStr);
     sprintf(UI_TempStr,"r_e:%d",speed_r);

@@ -7,6 +7,9 @@
 #include "pid_control.h"
 #include "motor_control.h"
 #include <math.h>
+
+#define PWM_MAX_LIMIT 5000
+
 PID motor_pid_l;//���pid����
 PID motor_pid_r;
 PID motor_pid;
@@ -23,6 +26,7 @@ int8_t Speed_differ=0;
 float expect_speed;//期待速度
 float defult;//这里所有的控制速度有关都用default 避免状态改变导致expect_speed改变
 float stage;//这里指用来写状态
+
 void pid_inti(PID* pid)
 {
     pid->instate=0;
@@ -55,15 +59,15 @@ void Motor_PID(int speed_l,int speed_r)
     motor_pid_r.errdat=speed_r-motor_r.Encoder;
     PidIncCtrl(&motor_pid_l);
     PidIncCtrl(&motor_pid_r);
-	if(motor_pid_l.pidout>3000)
-        motor_pid_l.pidout=3000;
-    else if(motor_pid_l.pidout<-3000)
-        motor_pid_l.pidout=-3000;
+	if(motor_pid_l.pidout>PWM_MAX_LIMIT)
+        motor_pid_l.pidout=PWM_MAX_LIMIT;
+    else if(motor_pid_l.pidout<-PWM_MAX_LIMIT)
+        motor_pid_l.pidout=-PWM_MAX_LIMIT;
 
-    if(motor_pid_r.pidout>3000)
-        motor_pid_r.pidout=3000;
-    else if(motor_pid_r.pidout<-3000)
-        motor_pid_r.pidout=-3000;
+    if(motor_pid_r.pidout>PWM_MAX_LIMIT)
+        motor_pid_r.pidout=PWM_MAX_LIMIT;
+    else if(motor_pid_r.pidout<-PWM_MAX_LIMIT)
+        motor_pid_r.pidout=-PWM_MAX_LIMIT;
 	Give_Motor_PWM(motor_pid_l.pidout,motor_pid_r.pidout);
 }
 
@@ -77,14 +81,15 @@ void Turn_Control(void)
 void Track(uint8_t expect_speed)
 {
 	defult=expect_speed;
-	Turn.errdat=bias_error;
+	Turn.errdat=bias_error*0.7+Turn.lastperr_errdat*0.3;
 	//Turn.errdat=0;
 	PidLocCtrl(&Turn,0);
-	Speed_differ=Turn.pidout;
+	Speed_differ=-Turn.pidout;
 	speed_l=defult+Speed_differ;
 	speed_r=defult-Speed_differ;
 	Get_Speed();
 	Motor_PID(speed_l,speed_r);
+	Turn.lastperr_errdat=Turn.errdat;
 }
 //根据偏航角来进行90度旋转
 void Turn_Angle_Control(float angle)
