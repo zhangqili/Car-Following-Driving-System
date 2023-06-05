@@ -66,7 +66,7 @@ float Turn_KD=-0.6;          //С��ת��D����-0.6
 float Mechanical_Angle=-5.5;   //�Ƕ���ֵ
 int Mechanical_velocity=0;   //�ٶ���ֵ
 int turn_speed=0;
-int Encoder_Left,Encoder_Right=0;   //���ұ��������������
+int Encoder_Left,Encoder_Right=0;   //���ұ��������������?
 int balance_up=0;
 int velocity=0;
 int turn_out=0;
@@ -127,38 +127,44 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	
-	/* UI PRESETS BEGIN */
+	/* PRESETS BEGIN */
+	Flash_Recovery();
+	if(HAL_GPIO_ReadPin(BOOT_GPIO_Port,BOOT_Pin))
+	{
+	  u8g2Init(&u8g2);
+    u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
+	  //while(1)
+	  while(UI_Flag)
+	  {
+	  	/*
+	  	u8g2_ClearBuffer(&u8g2);
+	  	if(OK_BUTTON)
+	  		u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*1,"OK");
+	  	if(BACK_BUTTON)
+	  		u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*2,"BACK");
+	  	if(UP_BUTTON)
+	  		u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*3,"UP");
+	  	if(DOWN_BUTTON)
+	  		u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*4,"DOWN");
+	  	u8g2_SendBuffer(&u8g2);
+	  	*/
+	  	UI_Update();
+	  	UI_Render();
+	  }
+	  Flash_Save();
+	}
+	else
+	{
 	
+	}
 	//Turn.pGain=15;
 	//Turn.dGain=25;
 	//motor_pid_l.pGain=20;
 	//motor_pid_l.iGain=10;
 	//motor_pid_r.pGain=20;
 	//motor_pid_r.iGain=10;
-	u8g2Init(&u8g2);
-  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-	//while(1)
-	Flash_Recovery();
-	while(UI_Flag)
-	{
-		/*
-		u8g2_ClearBuffer(&u8g2);
-		if(OK_BUTTON)
-			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*1,"OK");
-		if(BACK_BUTTON)
-			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*2,"BACK");
-		if(UP_BUTTON)
-			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*3,"UP");
-		if(DOWN_BUTTON)
-			u8g2_DrawStr(&u8g2,5,ITEM_HEIGHT*4,"DOWN");
-		u8g2_SendBuffer(&u8g2);
-		*/
-		UI_Update();
-		UI_Render();
-	}
-	Flash_Save();
 	UI_Menu=MONITOR;
-	/* UI PRESETS END */
+	/* PRESETS END */
 	
 	
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);

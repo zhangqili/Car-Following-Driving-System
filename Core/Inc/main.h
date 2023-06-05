@@ -67,6 +67,8 @@ void Error_Handler(void);
 #define Encoder_Left_A_GPIO_Port GPIOA
 #define Encoder_Left_B_Pin GPIO_PIN_7
 #define Encoder_Left_B_GPIO_Port GPIOA
+#define BOOT_Pin GPIO_PIN_2
+#define BOOT_GPIO_Port GPIOB
 #define AIN1_Pin GPIO_PIN_12
 #define AIN1_GPIO_Port GPIOB
 #define AIN2_Pin GPIO_PIN_13
@@ -103,7 +105,7 @@ extern float Turn_KD;
 extern float Mechanical_Angle;   //�ǶȻ�е��ֵ
 extern int Mechanical_velocity;   //�ٶȻ�е��ֵ
 extern int turn_speed;                   //ת����ֵ
-extern int Encoder_Left,Encoder_Right;   //���ұ��������������
+extern int Encoder_Left,Encoder_Right;   //���ұ��������������?
 extern int balance_up;
 extern int velocity;
 extern int turn_out;
