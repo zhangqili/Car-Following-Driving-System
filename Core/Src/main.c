@@ -198,13 +198,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_IWDG_Refresh(&hiwdg);
 		send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 		if(USART_RX_FLG)
 		{
 			//sscanf(USART_RX_BUF,"%f",&bias_error);
 			if(USART_RX_CNT==5)
 			{
+				HAL_IWDG_Refresh(&hiwdg);
 				//f_ptr = (unsigned char*)&bias_error;
 				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c\x5b",tempInt8,tempInt8+1);
 				bias_error=tempInt8[1];
