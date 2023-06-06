@@ -10,6 +10,7 @@
 #include "mpu6050.h"
 #include "pid_control.h"
 #include "usart.h"
+#include "main.h"
 
 uint8_t USART1_RX_BUF[USART1_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.
 uint16_t USART1_RX_STA=0;//接收状态标记//bit15：接收完成标志，bit14~0：接收到的有效字节数目
@@ -89,10 +90,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			//motor_pid_r.pGain=150;
 			//motor_pid_r.iGain=14;
 		Turn.errdat=bias_error*0.7+Turn.lastperr_errdat*0.3;
-		if(abs(Turn.errdat)>15)
+		if(fabsf(Turn.errdat)>15)
 			Turn.pGain=15;
 		else 
 			Turn.pGain=13;
-			Track(10);
+			Track(20);
 	}
 }

@@ -73,8 +73,8 @@ float SecondOrderLagFilter_R(int8_t value)
 
 void Get_Encoder()
 {
-	motor_l.Encoder=(short) -__HAL_TIM_GET_COUNTER(&htim3);     //保存编码器计数器的值
-	motor_r.Encoder=(short) -__HAL_TIM_GET_COUNTER(&htim4);
+	motor_l.Encoder=(short) __HAL_TIM_GET_COUNTER(&htim3);     //保存编码器计数器的值
+	motor_r.Encoder=(short) __HAL_TIM_GET_COUNTER(&htim4);
 	//motor.Encoder=0.5*(motor_l.Encoder+motor_r.Encoder);
 }
 

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "iwdg.h"
 #include "tim.h"
@@ -39,6 +40,7 @@
 #include "pid_control.h"
 #include "motor_control.h"
 #include "flash.h"
+#include "us100.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -118,8 +120,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
-  MX_I2C2_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
@@ -127,6 +129,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM1_Init();
   MX_IWDG_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 	
 	/* PRESETS BEGIN */
@@ -204,10 +207,11 @@ int main(void)
 			//sscanf(USART_RX_BUF,"%f",&bias_error);
 			if(USART_RX_CNT==5)
 			{
-				HAL_IWDG_Refresh(&hiwdg);
+				//HAL_IWDG_Refresh(&hiwdg);
 				//f_ptr = (unsigned char*)&bias_error;
 				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c\x5b",tempInt8,tempInt8+1);
-				bias_error=tempInt8[1];
+				bias_error=(float)tempInt8[0];
+				HAL_IWDG_Refresh(&hiwdg);
 			}
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);
@@ -217,7 +221,7 @@ int main(void)
 		}
 		UI_Update();
 		UI_Render();
-		
+		US100_GetDistance();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

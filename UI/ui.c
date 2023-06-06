@@ -12,6 +12,7 @@
 #include "mpu6050.h"
 #include "motor_control.h"
 #include "usart.h"
+#include "us100.h"
 
 Rectangle cursor={0,0,0};
 UI_MENU UI_Menu=HOME;
@@ -223,8 +224,10 @@ void UI_Menu_Monitor()
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"R:%d",motor_r.Encoder);
     u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
-    sprintf(UI_TempStr,"b_err:%f",bias_error);
+    sprintf(UI_TempStr,"b_err:%.0f",bias_error);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);
+    sprintf(UI_TempStr,"dist:%d",(uint16_t)(US100_DistanceBuffer[0]*256+US100_DistanceBuffer[1]));
+    u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"out:%f",Turn.pidout);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*3, UI_TempStr);
     sprintf(UI_TempStr,"p_l:%4.0f",motor_pid_l.pidout);
