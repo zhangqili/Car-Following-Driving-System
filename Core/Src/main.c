@@ -134,6 +134,7 @@ int main(void)
 	
 	/* PRESETS BEGIN */
 	Flash_Recovery();
+		
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
 	if(HAL_GPIO_ReadPin(BOOT_GPIO_Port,BOOT_Pin))

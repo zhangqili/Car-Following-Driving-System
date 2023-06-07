@@ -4,7 +4,7 @@
 
 uint8_t US100_DistanceBuffer[2];
 uint8_t US100_Temperature;
-uint16_t US100_Distance;
+//uint16_t US100_Distance;
 
 uint8_t US100_Requset_Distance[1]={0x55};
 uint8_t US100_Requset_Temperature[1]={0x50};

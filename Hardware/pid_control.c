@@ -7,6 +7,7 @@
 #include "pid_control.h"
 #include "motor_control.h"
 #include <math.h>
+#include "us100.h"
 
 #define PWM_MAX_LIMIT 5000
 
@@ -19,12 +20,12 @@ PID Turn_Angle;
 float Limit_distance;
 float distance;
 float bias_error;//循迹偏差
-float position_distance;//目标距离差
+float position_distance=300;//目标距离差
 int8_t speed_l;//应当期待的左轮速度
 int8_t speed_r;//应当期待的右轮速度
 int8_t Speed_differ=0;
-float expect_speed;//期待速度
-float defult;//这里所有的控制速度有关都用default 避免状态改变导致expect_speed改变
+float expect_speed=20;//期待速度
+float defult=20;//这里所有的控制速度有关都用default 避免状态改变导致expect_speed改变
 float stage;//这里指用来写状态
 
 void pid_inti(PID* pid)
@@ -81,7 +82,11 @@ void Turn_Control(void)
 void Track(uint8_t expect_speed)
 {
 	defult=expect_speed;
-	
+	Turn.errdat=bias_error*0.7+Turn.lastperr_errdat*0.3;
+//		if(fabsf(Turn.errdat)>15)
+//			Turn.pGain=25;
+//		else 
+//			Turn.pGain=20;
 	//Turn.errdat=0;
 	PidLocCtrl(&Turn,0);
 	Speed_differ=-Turn.pidout;
@@ -130,11 +135,10 @@ void Speed_position_double_close()
 
 	if(time==2)
 	{
-		Distance.errdat=distance-position_distance;
+		Distance.errdat=US100_Distance-position_distance;
 		PidLocCtrl(&Distance,Limit_distance);
 		time=0;
 	}
-	defult=expect_speed;
 	defult+=Distance.pidout;
 	Track(defult);
 	time++;

@@ -108,7 +108,7 @@ void UI_Update()
 						UI_PID_t = &Turn;
 						break;
 				case PID_DISTANCE:
-						UI_PID_t = &Turn;
+						UI_PID_t = &Distance;
 						break;
 				}
         if(BACK_Flag)
@@ -213,7 +213,7 @@ void UI_Menu_Home()
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT, "Left Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*2, "Right Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*3, "Turn");
-    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, (const char *)USART_RX_STR);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, "Distance");
 }
 
 
@@ -226,7 +226,7 @@ void UI_Menu_Monitor()
     u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"b_err:%.0f",bias_error);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);
-    sprintf(UI_TempStr,"dist:%d",(uint16_t)(US100_DistanceBuffer[0]*256+US100_DistanceBuffer[1]));
+    sprintf(UI_TempStr,"dist:%d",(uint16_t)(US100_Distance));
     u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"out:%f",Turn.pidout);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*3, UI_TempStr);
