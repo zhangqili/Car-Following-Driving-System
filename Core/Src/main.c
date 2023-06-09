@@ -80,6 +80,7 @@ float tempFloat;
 int8_t tempInt8[2];
 uint8_t* f_ptr;
 uint8_t uart1_buf[8];
+uint8_t color_flag=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -175,13 +176,13 @@ int main(void)
 	UI_Menu=MONITOR;
 	/* PRESETS END */
 	
-	HAL_UART_Receive_IT(&huart1,uart1_buf,1);
-	while(uart1_buf[0]!=0x10)
-	{
-	  	UI_Update();
-	  	UI_Render();
-			HAL_UART_Receive_IT(&huart1,uart1_buf,1);
-	}
+	//HAL_UART_Receive_IT(&huart1,uart1_buf,1);
+	//while(uart1_buf[0]!=0x10)
+	//{
+	//  	UI_Update();
+	//  	UI_Render();
+	//		HAL_UART_Receive_IT(&huart1,uart1_buf,1);
+	//}
 	
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //��NVIC�жϿ������йر�EXTI12�ж�
@@ -221,8 +222,15 @@ int main(void)
 			{
 				//HAL_IWDG_Refresh(&hiwdg);
 				//f_ptr = (unsigned char*)&bias_error;
-				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c\x5b",tempInt8,tempInt8+1);
-				bias_error=(float)tempInt8[1];
+				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c%c\x5b",tempInt8,tempInt8+1,&color_flag);
+				switch(color_flag)
+				{
+					case 2:
+						bias_error=(float)tempInt8[0];
+					default:
+						bias_error=(float)tempInt8[1];
+						
+				}
 			}
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);

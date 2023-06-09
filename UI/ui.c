@@ -247,7 +247,9 @@ void UI_Menu_Monitor()
 	  sprintf(UI_TempStr,"L:%d",motor_l.Encoder);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"R:%d",motor_r.Encoder);
-    u8g2_DrawStr(&u8g2, 64, ITEM_HEIGHT, UI_TempStr);
+    u8g2_DrawStr(&u8g2, 43, ITEM_HEIGHT, UI_TempStr);
+		sprintf(UI_TempStr,"C:%d",color_flag);
+    u8g2_DrawStr(&u8g2, 88, ITEM_HEIGHT, UI_TempStr);
     sprintf(UI_TempStr,"b_err:%.0f",bias_error);
     u8g2_DrawStr(&u8g2, 0, ITEM_HEIGHT*2, UI_TempStr);
     sprintf(UI_TempStr,"dist:%d",(uint16_t)(US100_Distance));

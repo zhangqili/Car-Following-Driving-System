@@ -113,6 +113,7 @@ extern short gx,gy,gz;   //����ԭʼ����
 extern float pitch,roll,yaw;   //ŷ����
 extern int PWMA,PWMB;   //������������ո��������PWM
 
+extern uint8_t color_flag;
 
 /* USER CODE END Private defines */
 
