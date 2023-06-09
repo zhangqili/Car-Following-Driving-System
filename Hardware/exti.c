@@ -79,17 +79,25 @@ void  HAL_UART_RxCpltCallback(UART_HandleTypeDef  *huart)//串口中断回调函数
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	
 
 	if(htim->Instance == TIM1)
 	{	
-		
+//		  if(count>=0&&count<=500)
+//		{
 			//Turn.pGain=23;
 			//Turn.dGain=30;
 			//motor_pid_l.pGain=150;
 			//motor_pid_l.iGain=14;
 			//motor_pid_r.pGain=150;
 			//motor_pid_r.iGain=14;
-
 			Track(expect_speed);
+//		}
+//		count++;
+//		if(count>501)
+//		{
+//			count=501;
+//			Give_Motor_PWM(0,0);
+//		}
 	}
 }

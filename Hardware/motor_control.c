@@ -45,7 +45,7 @@ void Get_Encoder_Counter(int *Encoder_Left_Counter,int *Encoder_Right_Counter)
 	__HAL_TIM_SET_COUNTER(&htim3,0);                   //保存之后要清零,以便下次继续读取.另外每次清零后采样值减0,直接用单位时间的话就可以得出速度信息了.不要麻烦还要减去初值了.
 	__HAL_TIM_SET_COUNTER(&htim4,0);
 }*/
-float SecondOrderLagFilter_Motor(uint8_t value)
+float SecondOrderLagFilter_Motor(uint16_t value)
 {
     static float last_value,last_2_value;
     value=0.2*value+0.4*last_value+0.4*last_2_value;     //�����ͺ��˲�
@@ -53,7 +53,7 @@ float SecondOrderLagFilter_Motor(uint8_t value)
     last_value=value;
     return value;
 }
-float SecondOrderLagFilter_L(int8_t value)
+float SecondOrderLagFilter_L(int16_t value)
 {
     static float last_value,last_2_value;
     value=0.2*value+0.4*last_value+0.4*last_2_value;     //�����ͺ��˲�
@@ -62,7 +62,7 @@ float SecondOrderLagFilter_L(int8_t value)
     return value;
 }
 
-float SecondOrderLagFilter_R(int8_t value)
+float SecondOrderLagFilter_R(int16_t value)
 {
     static float last_value,last_2_value;
     value=0.2*value+0.4*last_value+0.4*last_2_value;     //�����ͺ��˲�
@@ -84,6 +84,8 @@ void Get_Speed(void)
 	motor_l.Encoder=SecondOrderLagFilter_L(motor_l.Encoder);
 	motor_r.Encoder=SecondOrderLagFilter_R(motor_r.Encoder);
 //	motor.Encoder=SecondOrderLagFilter_Motor(motor.Encoder);
+	motor_l.total_encoder+=motor_l.Encoder;
+	motor_r.total_encoder+=motor_r.Encoder;
 	__HAL_TIM_SET_COUNTER(&htim3,0);                   //保存之后要清零,以便下次继续读取.另外每次清零后采样值减0,直接用单位时间的话就可以得出速度信息了.不要麻烦还要减去初值了.
 	__HAL_TIM_SET_COUNTER(&htim4,0);
 }

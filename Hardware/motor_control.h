@@ -11,9 +11,9 @@
 #include "main.h"
 
 typedef struct motor_param{
-        int8_t Encoder;
-        int8_t last_encoder;
-        int8_t total_encoder;
+        int16_t Encoder;
+        int16_t last_encoder;
+        int16_t total_encoder;
 }motor_param;
 
 extern motor_param motor_l, motor_r,motor;
