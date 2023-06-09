@@ -79,6 +79,7 @@ int PWMA,PWMB=0;   //������������ո�������
 float tempFloat;
 int8_t tempInt8[2];
 uint8_t* f_ptr;
+uint8_t uart1_buf[8];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -174,6 +175,13 @@ int main(void)
 	UI_Menu=MONITOR;
 	/* PRESETS END */
 	
+	HAL_UART_Receive_IT(&huart1,uart1_buf,1);
+	while(uart1_buf[0]!=0x10)
+	{
+	  	UI_Update();
+	  	UI_Render();
+			HAL_UART_Receive_IT(&huart1,uart1_buf,1);
+	}
 	
 	HAL_UART_Receive_IT(&huart2,&USART_RX_BYTE,1);
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); //��NVIC�жϿ������йر�EXTI12�ж�
@@ -185,7 +193,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
   HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL); //����TIM3 4�ı�����ģʽ
   HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_ALL);
-  HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);
+  //HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);
 	
 	/*
   OLED_Init(); //OLED�ĳ�ʼ��
