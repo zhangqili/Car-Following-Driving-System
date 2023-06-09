@@ -9,7 +9,10 @@
 #include <math.h>
 #include "us100.h"
 
-#define PWM_MAX_LIMIT 5000
+#define PWM_MAX_LIMIT 7000
+
+
+
 
 PID motor_pid_l;//���pid����
 PID motor_pid_r;
@@ -24,7 +27,7 @@ float position_distance=300;//目标距离差
 int8_t speed_l;//应当期待的左轮速度
 int8_t speed_r;//应当期待的右轮速度
 int8_t Speed_differ=0;
-float expect_speed=20;//期待速度
+int8_t expect_speed=20;//期待速度
 float defult=20;//这里所有的控制速度有关都用default 避免状态改变导致expect_speed改变
 float stage;//这里指用来写状态
 

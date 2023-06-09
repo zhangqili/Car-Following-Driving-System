@@ -85,8 +85,31 @@ void UI_Update()
         if(OK_Flag)
         {
             OK_Flag=0;
-            UI_Menu=MENU_PID;
-            UI_pid = UI_Selection;
+						if(UI_Selection<3)
+						{
+							UI_Menu=MENU_PID;
+							UI_pid = UI_Selection;
+						} 
+        }
+        if(PLUS_Flag)
+        {
+            PLUS_Flag=0;
+						switch(UI_Selection)
+						{
+							case 3:
+								expect_speed+=1;
+								break;
+						}
+        }
+        if(MINUS_Flag)
+        {
+            MINUS_Flag=0;
+						switch(UI_Selection)
+						{
+							case 3:
+								expect_speed-=1;
+								break;
+						}
         }
         if(BACK_Flag)
         {
@@ -213,7 +236,8 @@ void UI_Menu_Home()
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT, "Left Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*2, "Right Motor");
     u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*3, "Turn");
-    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, "Distance");
+    sprintf(UI_TempStr,"Speed:%d",expect_speed);
+    u8g2_DrawStr(&u8g2, 5, ITEM_HEIGHT*4, UI_TempStr);
 }
 
 

@@ -134,7 +134,7 @@ int main(void)
 	
 	/* PRESETS BEGIN */
 	Flash_Recovery();
-		
+	UI_Interval=1.0;
 	u8g2Init(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
 	if(HAL_GPIO_ReadPin(BOOT_GPIO_Port,BOOT_Pin))
@@ -157,6 +157,7 @@ int main(void)
 	  	UI_Update();
 	  	UI_Render();
 			HAL_IWDG_Refresh(&hiwdg);
+			HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
 	  }
 	  Flash_Save();
 	}
@@ -202,6 +203,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+			HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+		HAL_IWDG_Refresh(&hiwdg);
 		send_dataF(Turn.errdat,speed_l,speed_r,motor_l.Encoder,motor_r.Encoder);
 		if(USART_RX_FLG)
 		{
@@ -211,8 +214,7 @@ int main(void)
 				//HAL_IWDG_Refresh(&hiwdg);
 				//f_ptr = (unsigned char*)&bias_error;
 				sscanf((const char *)USART_RX_BUF,"\x2c\x12%c%c\x5b",tempInt8,tempInt8+1);
-				bias_error=(float)tempInt8[0];
-				HAL_IWDG_Refresh(&hiwdg);
+				bias_error=(float)tempInt8[1];
 			}
 			
 			//sprintf(USART_RX_STR,"%f",bias_error);
@@ -222,10 +224,11 @@ int main(void)
 		}
 		UI_Update();
 		UI_Render();
-		US100_GetDistance();
+		//US100_GetDistance();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		/*
 		if(USART1_RX_STA&0x8000)              //�ж��жϽ��ձ�־λ������ģ��ʹ��USART1��
       {
     	 if((USART1_RX_STA&0x7FFF) ==3 	//�жϽ�������3��                    
@@ -246,6 +249,8 @@ int main(void)
     	 }
          USART1_RX_STA=0;//��־λ��0��׼���´ν���
       }
+			
+			*/
 			/*
 	  OLED_Showdecimal(36,1,pitch,5,2,12, 0); //OLED��ʾС��ֵ
 	  OLED_Showdecimal(36,3,gy,5,2,12, 0);
@@ -299,6 +304,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+    if(HAL_UART_GetError(huart) & HAL_UART_ERROR_ORE)
+    {
+        __HAL_UART_FLUSH_DRREGISTER(huart);
+    }
+}
 
 /* USER CODE END 4 */
 
@@ -313,6 +325,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+		break;
   }
   /* USER CODE END Error_Handler_Debug */
 }

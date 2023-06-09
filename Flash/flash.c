@@ -98,9 +98,7 @@ void Flash_Recovery(void)
 	Turn.pGain=Flash_Buffer[6];
 	Turn.iGain=Flash_Buffer[7];
 	Turn.dGain=Flash_Buffer[8];
-	Distance.pGain=Flash_Buffer[9];
-	Distance.iGain=Flash_Buffer[10];
-	Distance.dGain=Flash_Buffer[11];
+	expect_speed=Flash_Buffer[9];
 	UI_Interval=Flash_Buffer[12];
 }
 
@@ -115,9 +113,7 @@ void Flash_Save(void)
 	Flash_Buffer[6]=Turn.pGain;
 	Flash_Buffer[7]=Turn.iGain;
 	Flash_Buffer[8]=Turn.dGain;
-	Flash_Buffer[9]=Distance.pGain;
-	Flash_Buffer[10]=Distance.iGain;
-	Flash_Buffer[11]=Distance.dGain;
-	Flash_Buffer[12]=UI_Interval;
+	Flash_Buffer[9]=expect_speed;
+	UI_Interval=Flash_Buffer[12];
 	Flash_Write(Flash_Buffer,13);
 }

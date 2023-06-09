@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart.h"
+#include "iwdg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -269,8 +270,8 @@ void USART2_IRQHandler(void)
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
   uart2_revice_my_data();
+	//while(HAL_UART_Receive_IT(&huart2, &USART_RX_BYTE, 1)!=HAL_OK);
   HAL_UART_Receive_IT(&huart2, &USART_RX_BYTE, 1);
-
   /* USER CODE END USART2_IRQn 1 */
 }
 

@@ -34,7 +34,7 @@ extern PID Turn;
 extern PID Turn_Angle;
 
 extern float bias_error;
-extern float expect_speed;
+extern int8_t expect_speed;
 extern int8_t speed_l;//应当期待的左轮速度
 extern int8_t speed_r;//应当期待的右轮速度
 int Up_balance(float Angle,float Gyro,float Mechanical_Angle);
